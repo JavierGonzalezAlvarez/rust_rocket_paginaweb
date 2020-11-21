@@ -1,20 +1,27 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-
 #[macro_use] extern crate rocket;
 
 use std::io;
-//use std::path::{Path, PathBuf};
 use rocket::response::NamedFile;
 
 #[get("/")]
-//fn index() -> &'static str {
-    // "hola"
 fn index() -> io::Result<NamedFile> {
-    NamedFile::open("public/index.html")
+NamedFile::open("public/index.html")
+}
+
+#[get("/sobrerust")]
+fn rust() -> io::Result<NamedFile> {
+NamedFile::open("public/sobrerust.html")
+}
+
+#[get("/contacto")]
+fn contacto() -> io::Result<NamedFile> {
+NamedFile::open("public/contacto.html")
 }
 
 fn main() {
-    // crear una ruta "/"
-    rocket::ignite()
-        .mount("/", routes![index]).launch();
+// crear una ruta "/"
+rocket::ignite()
+// "/" es un namespace
+.mount("/", routes![index, rust, contacto]).launch();
 }
